@@ -1,0 +1,19 @@
+.container {
+    max-width: 900px;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+table td, table th {
+    vertical-align: middle;
+}
+
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+
+.form-error {
+  min-height: 18px;
+}

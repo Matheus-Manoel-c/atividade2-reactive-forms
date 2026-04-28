@@ -1,0 +1,161 @@
+<div class="container py-5">
+
+  <h2 class="fw-bold mb-4 text-primary">Agenda de Contatos</h2>
+
+  <!-- FORM PRINCIPAL -->
+  <form [formGroup]="form" class="card p-4 shadow-sm mb-4">
+
+    <div class="row g-3 align-items-end">
+
+      <div class="col-md-3">
+        <input type="text"
+              formControlName="nome"
+              class="form-control"
+              [class.is-invalid]="form.get('nome')?.invalid && form.get('nome')?.touched"
+              placeholder="Nome">
+
+        <div class="form-error">
+
+          <!-- obrigatório -->
+          <small class="text-danger"
+            *ngIf="form.get('nome')?.touched && form.get('nome')?.errors?.['required']">
+            Nome é obrigatório
+          </small>
+
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <input type="text"
+              formControlName="telefone"
+              maxlength="15"
+              class="form-control"
+              [class.is-invalid]="form.get('telefone')?.invalid && form.get('telefone')?.touched"
+              placeholder="Telefone">
+
+        <div class="form-error">
+
+          <!-- obrigatório -->
+          <small class="text-danger"
+            *ngIf="form.get('telefone')?.touched && form.get('telefone')?.errors?.['required']">
+            Telefone é obrigatório
+          </small>
+
+          <!-- inválido -->
+          <small class="text-danger"
+            *ngIf="form.get('telefone')?.touched && form.get('telefone')?.errors?.['telefoneInvalido']">
+            Telefone inválido
+          </small>
+
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <input type="email"
+              formControlName="email"
+              class="form-control"
+              [class.is-invalid]="form.get('email')?.invalid && form.get('email')?.touched"
+              placeholder="E-mail">
+
+        <div class="form-error">
+
+          <!-- obrigatório -->
+          <small class="text-danger"
+            *ngIf="form.get('email')?.touched && form.get('email')?.errors?.['required']">
+            E-mail é obrigatório
+          </small>
+
+          <!-- inválido -->
+          <small class="text-danger"
+            *ngIf="form.get('email')?.touched && form.get('email')?.errors?.['email']">
+            E-mail inválido
+          </small>
+
+        </div>
+      </div>
+
+      <div class="col-md-3 d-flex flex-column">
+  
+        <div class="flex-grow-1 d-flex align-items-end">
+            <button class="btn btn-success w-100"
+                    type="button"
+                    [disabled]="form.invalid"
+                    (click)="inserir()">
+              Inserir
+            </button>
+          </div>
+
+          <div class="form-error"></div>
+        </div>
+    </div>
+  </form>
+
+  <!-- TABELA -->
+  <table class="table table-striped table-bordered">
+    <thead class="table-primary">
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Email</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let contato of contatos">
+
+        <!-- VISUAL -->
+        <ng-container *ngIf="!contato.editando">
+          <td>{{ contato.nome }}</td>
+          <td>{{ contato.telefone }}</td>
+          <td>{{ contato.email }}</td>
+
+          <td>
+            <button class="btn btn-warning btn-sm me-2"
+                    (click)="editar(contato)">
+              Editar
+            </button>
+
+            <button class="btn btn-danger btn-sm"
+                    *ngFor="let contato of contatos; let i = index"
+                    (click)="excluir(i)">
+              Excluir
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- EDIÇÃO REATIVA -->
+        <ng-container *ngIf="contato.editando" [formGroup]="contato.formEdit">
+
+          <td>
+            <input formControlName="nome" class="form-control" [class.is-invalid]="contato.formEdit.get('nome')?.invalid && contato.formEdit.get('nome')?.touched">
+          </td>
+
+          <td>
+            <input formControlName="telefone" class="form-control" [class.is-invalid]="contato.formEdit.get('telefone')?.invalid && contato.formEdit.get('telefone')?.touched">
+          </td>
+
+          <td>
+            <input formControlName="email" class="form-control" [class.is-invalid]="contato.formEdit.get('email')?.invalid && contato.formEdit.get('email')?.touched">
+          </td>
+
+          <td>
+            <button class="btn btn-primary btn-sm me-2"
+                    [disabled]="contato.formEdit.invalid"
+                    (click)="salvar(contato)">
+              Salvar
+            </button>
+
+            <button class="btn btn-secondary btn-sm"
+                    (click)="cancelar(contato)">
+              Cancelar
+            </button>
+          </td>
+
+        </ng-container>
+
+      </tr>
+    </tbody>
+  </table>
+
+</div>
