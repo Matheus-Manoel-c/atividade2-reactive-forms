@@ -2,7 +2,6 @@
 
   <h2 class="fw-bold mb-4 text-primary">Agenda de Contatos</h2>
 
-  <!-- FORM PRINCIPAL -->
   <form [formGroup]="form" class="card p-4 shadow-sm mb-4">
 
     <div class="row g-3 align-items-end">
@@ -108,7 +107,6 @@
               Editar
             </button>
 
-            <!-- ✅ CORREÇÃO AQUI -->
             <button class="btn btn-danger btn-sm"
                     (click)="excluir(i)">
               Excluir
@@ -116,7 +114,6 @@
           </td>
         </ng-container>
 
-        <!-- EDIÇÃO -->
         <ng-container *ngIf="contato.editando" [formGroup]="contato.formEdit">
 
           <td>
